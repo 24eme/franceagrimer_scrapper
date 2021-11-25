@@ -4,6 +4,7 @@
 
 export FRANCEAGRIMER_USERNAME
 export FRANCEAGRIMER_PASSWORD
+export FRANCEAGRIMER_DEBUG
 
 campagne=2020
 date=$(date +%Y%m%d%H%M)
@@ -17,7 +18,7 @@ if ! test -f download/Export-*csv ; then
 	exit 1
 fi
 csvdossier=export/$date"_"$campagne"_"dossiers.csv
-mv download/Export-*csv $csvdossier
+mv -f download/Export-*csv $csvdossier
 recode ISO88591..UTF8 $csvdossier
 rm -f download/*pdf
 cat $csvdossier | awk -F ';' '{print $3}' | grep '^[0-9]' | while read dossier ; do
@@ -25,7 +26,7 @@ cat $csvdossier | awk -F ';' '{print $3}' | grep '^[0-9]' | while read dossier ;
 	if ! test -f download/*pdf ; then
 		echo "ERREUR: $dossier non récupéré";
 	else
-		mv download/*pdf export/
+		mv -f download/*pdf export/
 	fi
 done
 
