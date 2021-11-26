@@ -46,7 +46,7 @@ const puppeteer = require('puppeteer');
           console.log("PDF dispo");
       }
       await page.click('img.lienFichier');
-      await page.waitForTimeout(30000);
+      await page.waitForTimeout(60000);
       await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log('fin téléchargement');
