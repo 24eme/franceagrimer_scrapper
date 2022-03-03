@@ -6,7 +6,13 @@ export FRANCEAGRIMER_USERNAME
 export FRANCEAGRIMER_PASSWORD
 export FRANCEAGRIMER_DEBUG
 
-campagne=2020
+campagne=$1
+
+if ! test "$campagne"; then
+	echo "Campagne attendu";
+	exit2
+fi
+
 date=$(date +%Y%m%d%H%M)
 
 mkdir -p download export
