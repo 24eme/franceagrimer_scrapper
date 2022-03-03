@@ -10,7 +10,7 @@ campagne=$1
 
 if ! test "$campagne"; then
 	echo "Campagne attendu";
-	exit2
+	exit 2
 fi
 
 date=$(date +%Y%m%d%H%M)
