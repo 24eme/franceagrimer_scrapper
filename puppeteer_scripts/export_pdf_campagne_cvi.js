@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-  const browser = await puppeteer.launch({headless: true,
+    const browser = await puppeteer.launch({headless: (process.env.FRANCEAGRIMER_DEBUG != 2),
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',

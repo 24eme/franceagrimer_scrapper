@@ -1,6 +1,13 @@
 const puppeteer = require('puppeteer');
 (async () => {
-  const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({headless: (process.env.FRANCEAGRIMER_DEBUG != 2),
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+      ]});
   const page = await browser.newPage();
   await page._client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
