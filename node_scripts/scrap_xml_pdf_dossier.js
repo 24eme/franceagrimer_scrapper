@@ -33,6 +33,7 @@ try {
         }
         switch (line.split(';')[1]) {
             case 'N° CVI':
+                buffervalue = '';
                 action = 'CVI';
                 return;
             case 'N° SIRET':
