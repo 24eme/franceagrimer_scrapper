@@ -11,6 +11,8 @@ try {
 
     var page = 'page garde';
     var i = 0;
+    var parcelleid = 0;
+    var oldtop = 0;
     var action = '';
     var oldaction = 'OLD';
     var key = '';
@@ -18,10 +20,17 @@ try {
     var buffervalue = '';
     // print all lines
     lines.forEach((line) => {
+        let top = line.split('"')[1]
+        let left = line.split('"')[3]
         line = line.replace(/<[^>]*>/g, ';');
         line = line.replace(/^;?[ \t]*/, '');
         line = line.replace(/[ \t]*;?$/, '');
         i++;
+        //console.log("DEBUG: line ("+i+") "+line);
+        if (line.match(';Dossier N°')) {
+            action = '';
+            return;
+        }
         switch (line.split(';')[1]) {
             case 'N° CVI':
                 action = 'CVI';
@@ -68,6 +77,7 @@ try {
                 action = 'nextline';
                 return ;
             case 'Surface demandée':
+                if (action == 'parcelles restructuration')  return ;
                 key = 'Engagement surface demandée (ha)';
                 action = 'nextline';
                 return ;
@@ -99,11 +109,12 @@ try {
                 key = 'Date de transmission DP ST'
                 action = 'nextline';
                 return ;
+            case 'Parcelles Restructuration':
+                action = 'parcelles restructuration';
+                return ;
             default:
-                if (line) {
-                    console.log("DEBUG: line: "+line);
-                }
         }
+        console.log("DEBUG: action: "+action+" != "+oldaction);
         if (action != oldaction) {
             i = 0;
         }
@@ -168,9 +179,43 @@ try {
                 if (i == 5) key = 'Domiciliation RIB';
                 if (i == 6) key = 'Etat RIB';
                 break;
+            case 'parcelles restructuration':
+                if (i < 13) {
+                    buffervalue = '';
+                    return;
+                }
+                if (oldtop != top) {
+                    parcelleid++;
+                }
+                oldtop = top;
+                key = 'parcelle '+parcelleid;
+                if (left > 1100) {
+                    key += ' Objectifs principaux';
+                }else if (left > 1000) {
+                    key += ' EIP';
+                }else if (left > 950) {
+                    key += ' EIR';
+                }else if (left > 800) {
+                    key += ' Cépage'
+                }else if (left > 750) {
+                    key += ' Irrigation'
+                }else if (left > 650) {
+                    key += ' Palissage'
+                }else if (left > 550) {
+                    key += ' Plantation'
+                }else if (left > 450) {
+                    key += ' Surface demandée'
+                }else if (left > 250) {
+                    key += ' Commune'
+                }else if (left > 180) {
+                    key += ' Parcelle demandée'
+                }else if (left > 20) {
+                    key += ' N° GPS/ Surf. retenue'
+                }
+                break;
             default:
                 if (line) {
-                    console.log("DEBUG: line: "+line);
+                    console.log("DEBUG: line ("+i+" t:"+top+" l:"+left+") : "+line+" < "+action);
                 }
                 buffervalue = '';
                 return 
