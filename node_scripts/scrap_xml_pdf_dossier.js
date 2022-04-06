@@ -5,7 +5,7 @@ try {
     // read contents of the file
     let xml_file = process.argv[2];
     const data = fs.readFileSync(xml_file, 'UTF-8');
-    var [dossier, maj] = xml_file.replace('RecapRS_', '').split("/");
+    var [dossier, maj] = xml_file.replace(/.*RecapRS_/, '').replace('.', '_').split("_");
 
     // split the contents by new line
     const lines = data.split(/\r?\n/);
@@ -19,6 +19,7 @@ try {
     var key = '';
     var oldkey = '';
     var buffervalue = '';
+    var ordre = '0';
     // print all lines
     lines.forEach((line) => {
         let top = line.split('"')[1]
@@ -45,31 +46,35 @@ try {
             case 'N° CVI':
                 buffervalue = '';
                 action = 'CVI';
+                ordre = '0';
                 return;
             case 'N° SIRET':
                 action = 'SIRET';
+                ordre = '0';
                 return;
             case 'du siège':
-                key = 'adresse du siege';                
+                ordre = '1';
+                key = 'Contact Adresse du siege';
                 action = 'twolines';
                 return;
             case 'de correspondance':
-                key = 'adresse de correspondance';
+                ordre = '1';
+                key = 'Contact Adresse de correspondance';
                 action = 'twolines';
                 return;
             case 'Adresse ':
                 return;
             case 'Téléphone fixe':
-                key = 'telephone fixe';
+                key = 'Contact Telephone fixe';
                 action = 'sameline';
                 break;
-            case 'Téléphone portable ':
-                key = 'telephone portable';
+            case 'Contact Téléphone portable ':
+                key = 'Telephone portable';
                 action = 'sameline';
                 break;
-            case 'Courriel ':
+            case 'Contact Courriel ':
                 action = 'sameline';
-                key = 'email';
+                key = 'Email';
                 break;
             case 'PLA-indiv':
             case 'PLA-coll':
@@ -127,6 +132,7 @@ try {
                 action = 'nextline';
                 return ;
             case 'Parcelles Restructuration':
+                ordre = '2';
                 action = 'parcelles restructuration';
                 return ;
             case 'Parcelle demandée ':
@@ -143,6 +149,7 @@ try {
             case 'Date transmission ST ':
             case 'Appellation ':
             case 'Densité (pieds/ha) ':
+                ordre = '3';
                 key = 'Détail des parcelles '+parcelleid+' '+line.split(';')[1].trim();
                 action = 'sameline';
                 if(line == ";Statut parcelle ; En cours d’;") {
@@ -183,7 +190,7 @@ try {
                 if (i == 0) {
                     key = 'CVI';
                 }else if(i == 1) {
-                    key = 'raison sociale du CVI';
+                    key = 'Raison sociale du CVI';
                 }
                 break;
             case 'SIRET':
@@ -192,7 +199,7 @@ try {
                 } else if (i == 1) {
                     key = 'Type societe';
                 } else if (i == 2) {
-                    key = 'raison sociale SIRET';
+                    key = 'Raison sociale SIRET';
                 }
                 break;
             case 'twolines':
@@ -232,10 +239,10 @@ try {
                     buffervalue = '';
                     return ;
                 }
-                if (i == 3) key = 'RIB';
-                if (i == 4) key = 'Titulaire RIB';
-                if (i == 5) key = 'Domiciliation RIB';
-                if (i == 6) key = 'Etat RIB';
+                if (i == 3) key = 'RIB identifiants';
+                if (i == 4) key = 'RIB Titulaire';
+                if (i == 5) key = 'RIB Domiciliation';
+                if (i == 6) key = 'RIB Etat';
                 break;
             case 'parcelles restructuration':
                 if (i < 13) {
@@ -386,7 +393,7 @@ try {
                 return;
         }
         if (key && buffervalue) {
-            console.log(key+';'+buffervalue.trim());
+            console.log(dossier+';'+maj+';'+ordre+';'+key+';'+buffervalue.trim());
             key = '';
             buffervalue = '';
             return;
