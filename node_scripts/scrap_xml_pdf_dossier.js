@@ -36,8 +36,11 @@ try {
         }
         i++;
         if (debug) console.log("DEBUG: line ("+i+") "+line);
-        switch (line.split(';')[1]) {
-            case 'Dossier N° ':
+        let categorie = line.split(';')[1];
+        if (categorie) categorie = categorie.trim();
+        if (debug && categorie) console.log("DEBUG: categorie "+categorie);
+        switch (categorie) {
+            case 'Dossier N°':
                 if (action == 'parcelles restructuration') {
                     parcelleid = 0;
                 }
@@ -62,19 +65,20 @@ try {
                 key = 'Contact Adresse de correspondance';
                 action = 'twolines';
                 return;
-            case 'Adresse ':
+            case 'Adresse':
                 return;
+            case 'Téléphone fixe':
             case 'Téléphone fixe':
                 key = 'Contact Telephone fixe';
                 action = 'sameline';
                 break;
-            case 'Contact Téléphone portable ':
-                key = 'Telephone portable';
+            case 'Téléphone portable':
+                key = 'Contact Telephone portable';
                 action = 'sameline';
                 break;
-            case 'Contact Courriel ':
+            case 'Courriel':
                 action = 'sameline';
-                key = 'Email';
+                key = 'Contact Email';
                 break;
             case 'PLA-indiv':
             case 'PLA-coll':
@@ -93,11 +97,6 @@ try {
                     return;
                 }
                 key = 'Engagement n°';
-                action = 'nextline';
-                return ;
-            case 'Surface demandée':
-                if (action == 'parcelles restructuration')  return ;
-                key = 'Engagement surface demandée (ha)';
                 action = 'nextline';
                 return ;
             case "Nombre d'associés du GAEC total":
@@ -135,20 +134,26 @@ try {
                 ordre = '2';
                 action = 'parcelles restructuration';
                 return ;
-            case 'Parcelle demandée ':
-            case 'Surface demandée ':
-            case 'Action ':
-            case 'Action complémentaire ':
-            case 'Objectifs principaux ':
-            case 'Commune ':
-            case 'Section ':
-            case 'EIR ':
-            case 'EIP ':
-            case 'Cépage ':
-            case 'Statut parcelle ':
-            case 'Date transmission ST ':
-            case 'Appellation ':
-            case 'Densité (pieds/ha) ':
+            case 'Parcelle demandée':
+            case 'Surface demandée':
+            case 'Action':
+            case 'Action complémentaire':
+            case 'Objectifs principaux':
+            case 'Commune':
+            case 'Section':
+            case 'EIR':
+            case 'EIP':
+            case 'Cépage':
+            case 'Statut parcelle':
+            case 'Date transmission ST':
+            case 'Appellation':
+            case 'Densité (pieds/ha)':
+                if (action == 'parcelles restructuration' || action == 'liste des droits')  return ;
+                if ((categorie == 'Surface demandée') && (action != 'sameline')) {
+                    key = 'Engagement surface demandée (ha)';
+                    action = 'nextline';
+                    return ;
+                }
                 ordre = '3';
                 key = 'Détail des parcelles '+parcelleid+' '+line.split(';')[1].trim();
                 action = 'sameline';
@@ -171,7 +176,7 @@ try {
                     action = 'controles realises droits';
                 }
                 return;
-            case 'Surface retenue suite ':
+            case 'Surface retenue suite':
                 action = '';
                 return;
             case 'Liste des droits / des arrachages / des parcelles à arracher':
@@ -179,7 +184,7 @@ try {
                 return;
             default:
         }
-        if (debug) console.log("DEBUG: action: "+action+" != "+oldaction);
+        if (debug) console.log("DEBUG: action/old: "+action+" / "+oldaction);
         if (action != oldaction) {
             i = 0;
         }
@@ -199,6 +204,11 @@ try {
                 } else if (i == 1) {
                     key = 'Type societe';
                 } else if (i == 2) {
+                    if (buffervalue == 'limitée ') {
+                        i--;
+                        buffervalue = '';
+                        return;
+                    }
                     key = 'Raison sociale SIRET';
                 }
                 break;
@@ -225,7 +235,7 @@ try {
                     return;
                 }
                 buffervalue = c[2];
-                oldaction = '';                
+                oldaction = '';
                 break;
             case 'Total surfaces demandées par action':
                 if (i == 0) key = 'Total surfaces PLA-indiv';
@@ -318,7 +328,7 @@ try {
                 }
                 key = 'Détail des parcelles '+parcelleid+' Liste des droits '+cadastraleid+' ';
                 if (left > 1300) {
-                    key += "Code mesure RS"; 
+                    key += "Code mesure RS";
                 } else if (left > 1200) {
                     key += "Dossier AP (hors PCL)";
                 } else if (left > 1060) {
