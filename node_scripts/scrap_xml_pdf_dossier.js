@@ -340,7 +340,7 @@ try {
                     key += "Type de instruction";
                 } else if (left > 850) {
                     key += "Surface demandée";
-                } else if (left > 700) {
+                } else if (left > 690) {
                     key += "Cépage";
                 } else if (left > 610) {
                     key += "Densité (pieds/ha)";
