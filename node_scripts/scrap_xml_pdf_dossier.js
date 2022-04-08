@@ -58,14 +58,17 @@ try {
             case 'du siège':
                 ordre = '1';
                 key = 'Contact Adresse du siege';
+                i = 0;
                 action = 'twolines';
                 return;
             case 'de correspondance':
                 ordre = '1';
                 key = 'Contact Adresse de correspondance';
                 action = 'twolines';
+                i = 0;
                 return;
             case 'Adresse':
+                buffervalue = '';
                 return;
             case 'Téléphone fixe':
             case 'Téléphone fixe':
@@ -213,7 +216,7 @@ try {
                 }
                 break;
             case 'twolines':
-                if (i < 2) {
+                if (i < 1) {
                     return;
                 }
                 oldaction = '';
