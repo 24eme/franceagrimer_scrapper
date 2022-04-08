@@ -196,6 +196,7 @@ try {
         }
         oldaction = action;
         buffervalue += line.replace(/;/g, '')+" ";
+        let nospaces = [];
         switch (action) {
             case 'CVI':
                 if (i == 0) {
@@ -359,7 +360,10 @@ try {
                     key += 'Référence cadastrale';
                 } else if (left > 110) {
                     key += 'Type de droit';
-                } else if (left > 60) {
+                } else if (left > 50) {
+                    if (buffervalue.trim().match(' ')) {
+                        nospaces = [key+'Type de droit', key+'Référence cadastrale']
+                    }
                     key += 'N° du droit';
                 } else if (left > 30) {
                     cadastraleid = buffervalue.trim();
@@ -409,7 +413,24 @@ try {
                 return;
         }
         if (key && buffervalue) {
-            console.log(dossier+';'+maj+';'+ordre+';'+key+';'+buffervalue.trim());
+            if (nospaces.length) {
+                nospaces.unshift(key);
+                spaces = buffervalue.trim().split(' ');
+                if (spaces.length > 1) {
+                    lastspace = nospaces.pop()
+                    for(let k in nospaces) {
+                        v = spaces.shift();
+                        if (v) {
+                            console.log(dossier+';'+maj+';'+ordre+';'+nospaces[k]+';'+v);
+                        }
+                    }
+                    console.log(dossier+';'+maj+';'+ordre+';'+lastspace+';'+spaces.join(' '));
+                }else{
+                    console.log(dossier+';'+maj+';'+ordre+';'+key+';'+buffervalue.trim());
+                }
+            }else{
+                console.log(dossier+';'+maj+';'+ordre+';'+key+';'+buffervalue.trim());
+            }
             key = '';
             buffervalue = '';
             return;
