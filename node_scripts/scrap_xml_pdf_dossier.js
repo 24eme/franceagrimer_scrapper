@@ -22,11 +22,8 @@ try {
     var ordre = '0';
     // print all lines
     lines.forEach((line) => {
-        let top = line.split('"')[1]
-        let left = line.split('"')[3]
-        if (line.match(/<image .*jpg/)) {
-            parcelleid++;
-        }
+        let top = line.split('"')[1];
+        let left = line.split('"')[3];
         line = line.replace(/<[^>]*>/g, ';');
         line = line.replace(/^;?[ \t]*/, '');
         line = line.replace(/[ \t]*;?$/, '');
@@ -157,8 +154,14 @@ try {
                     action = 'nextline';
                     return ;
                 }
+                if (categorie == "Parcelle demandée") {
+                    c = line.split(';');
+                    if (c.length > 2) {
+                        parcelleid = c[2].trim();
+                    }
+                }
                 ordre = '3';
-                key = 'Détail des parcelles '+parcelleid+' '+line.split(';')[1].trim();
+                key = 'Détail des parcelles '+parcelleid+' '+categorie;
                 action = 'sameline';
                 if(line == ";Statut parcelle ; En cours d’;") {
                     line = ";Statut parcelle ; En cours d’instruction";
