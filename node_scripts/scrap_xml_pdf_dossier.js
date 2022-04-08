@@ -345,6 +345,11 @@ try {
                 } else if (left > 850) {
                     key += "Surface demandée";
                 } else if (left > 690) {
+                    if (buffervalue.trim() == 'Total') {
+                        cadastraleid = 'Total';
+                        buffervalue = '';
+                        return;
+                    }
                     key += "Cépage";
                 } else if (left > 610) {
                     key += "Densité (pieds/ha)";
