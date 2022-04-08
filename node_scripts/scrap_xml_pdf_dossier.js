@@ -207,7 +207,7 @@ try {
                 } else if (i == 1) {
                     key = 'Type societe';
                 } else if (i == 2) {
-                    if (buffervalue == 'limitée ') {
+                    if (buffervalue == 'limitée ' || buffervalue == 'indication) ') {
                         i--;
                         buffervalue = '';
                         return;
