@@ -54,13 +54,13 @@ try {
                 return;
             case 'du siège':
                 ordre = '1';
-                key = 'Contact Adresse du siege';
+                key = 'Identité;Adresse du siege';
                 i = 0;
                 action = 'twolines';
                 return;
             case 'de correspondance':
                 ordre = '1';
-                key = 'Contact Adresse de correspondance';
+                key = 'Identité;Adresse de correspondance';
                 action = 'twolines';
                 i = 0;
                 return;
@@ -69,16 +69,16 @@ try {
                 return;
             case 'Téléphone fixe':
             case 'Téléphone fixe':
-                key = 'Contact Telephone fixe';
+                key = 'Identité;Telephone fixe';
                 action = 'sameline';
                 break;
             case 'Téléphone portable':
-                key = 'Contact Telephone portable';
+                key = 'Identité;Telephone portable';
                 action = 'sameline';
                 break;
             case 'Courriel':
                 action = 'sameline';
-                key = 'Contact Email';
+                key = 'Identité;Email';
                 break;
             case 'PLA-indiv':
             case 'PLA-coll':
@@ -89,45 +89,45 @@ try {
                 action = 'Total surfaces demandées par action';
                 return;
             case 'Plan':
-                key = 'Engagement plan';
+                key = 'Résumé demande;Engagement plan';
                 action = 'nextline';
                 return ;
             case 'N°':
                 if (action == 'controles realises droits') {
                     return;
                 }
-                key = 'Engagement n°';
+                key = 'Résumé demande;Engagement n°';
                 action = 'nextline';
                 return ;
             case "Nombre d'associés du GAEC total":
                 buffervalue  = '';
-                key = 'Nombre associés du GAEC';
+                key = 'Identité;Nombre associés du GAEC';
                 action = 'nextline';
                 return ;
             case "Demande d'avance individuelle":
-                key = 'Surface demandée avance individuelle';
+                key = 'Résumé demande;Surface demandée avance individuelle';
                 action = 'getline4';
                 return ;
             case "Demande d'avance collective":
-                key = 'Surface demandée avance collective';
+                key = 'Résumé demande;Surface demandée avance collective';
                 action = 'getline4';
                 return ;
             case 'densité':
                 if (action == 'controles realises droits') {
                     return;
                 }
-                key = 'Option PCR retenue pour le recours au changement de densité';
+                key = 'Résumé demande;Option PCR retenue pour le recours au changement de densité';
                 action = 'nextline';
                 return ;
             case 'RIB IBAN/BIC (format SEPA)':
                 action = 'RIB';
                 return;
             case 'Date de transmission DA ST':
-                key = 'Date de transmission DA ST'
+                key = 'Résumé demande;Date de transmission DA ST'
                 action = 'nextline';
                 return ;
             case 'Date de transmission DP ST':
-                key = 'Date de transmission DP ST'
+                key = 'Résumé demande;Date de transmission DP ST'
                 action = 'nextline';
                 return ;
             case 'Parcelles Restructuration':
@@ -146,11 +146,12 @@ try {
             case 'Cépage':
             case 'Statut parcelle':
             case 'Date transmission ST':
+            case "Date annulation":
             case 'Appellation':
             case 'Densité (pieds/ha)':
                 if (action == 'parcelles restructuration' || action == 'liste des droits')  return ;
                 if ((categorie == 'Surface demandée') && (action != 'sameline')) {
-                    key = 'Engagement surface demandée (ha)';
+                    key = 'Résumé demande;Engagement surface demandée (ha)';
                     action = 'nextline';
                     return ;
                 }
@@ -161,7 +162,7 @@ try {
                     }
                 }
                 ordre = '3';
-                key = 'Détail des parcelles '+parcelleid+' '+categorie;
+                key = 'Détail des parcelles '+parcelleid+';'+categorie;
                 action = 'sameline';
                 if(line == ";Statut parcelle ; En cours d’;") {
                     line = ";Statut parcelle ; En cours d’instruction";
@@ -172,7 +173,7 @@ try {
                 cadastraleid = 1;
                 break;
             case 'Règles supplémentaires':
-                key = 'Détail des parcelles '+parcelleid+' Règles supplémentaires'
+                key = 'Détail des parcelles '+parcelleid+';Règles supplémentaires'
                 action = 'nextline';
                 return;
             case 'Contrôles réalisés':
@@ -200,23 +201,23 @@ try {
         switch (action) {
             case 'CVI':
                 if (i == 0) {
-                    key = 'CVI';
+                    key = 'Identité;CVI';
                 }else if(i == 1) {
-                    key = 'Raison sociale du CVI';
+                    key = 'Identité;Raison sociale du CVI';
                 }
                 break;
             case 'SIRET':
                 if (i == 0) {
-                    key = 'SIRET';
+                    key = 'Identité;SIRET';
                 } else if (i == 1) {
-                    key = 'Type societe';
+                    key = 'Identité;Type societe';
                 } else if (i == 2) {
-                    if (buffervalue == 'limitée ' || buffervalue == 'indication) ') {
+                    if (buffervalue == 'limitée ' || buffervalue == 'indication) ' || buffervalue == 'commun (GAEC) ' || buffervalue == 'indication) ') {
                         i--;
                         buffervalue = '';
                         return;
                     }
-                    key = 'Raison sociale SIRET';
+                    key = 'Identité;Raison sociale SIRET';
                 }
                 break;
             case 'twolines':
@@ -245,21 +246,21 @@ try {
                 oldaction = '';
                 break;
             case 'Total surfaces demandées par action':
-                if (i == 0) key = 'Total surfaces PLA-indiv';
-                if (i == 1) key = 'Total surfaces PLA-coll';
-                if (i == 2) key = 'Total surfaces PAL-seul';
-                if (i == 3) key = 'Total surfaces IRR-seule';
-                if (i == 4) key = 'Total surfaces PAL+IRR-seuls';
+                if (i == 0) key = 'Résumé demande;Total surfaces PLA-indiv';
+                if (i == 1) key = 'Résumé demande;Total surfaces PLA-coll';
+                if (i == 2) key = 'Résumé demande;Total surfaces PAL-seul';
+                if (i == 3) key = 'Résumé demande;Total surfaces IRR-seule';
+                if (i == 4) key = 'Résumé demande;Total surfaces PAL+IRR-seuls';
                 break;
             case 'RIB':
                 if (i < 3 || i > 6) {
                     buffervalue = '';
                     return ;
                 }
-                if (i == 3) key = 'RIB identifiants';
-                if (i == 4) key = 'RIB Titulaire';
-                if (i == 5) key = 'RIB Domiciliation';
-                if (i == 6) key = 'RIB Etat';
+                if (i == 3) key = 'Identité;RIB identifiants';
+                if (i == 4) key = 'Identité;RIB Titulaire';
+                if (i == 5) key = 'Identité;RIB Domiciliation';
+                if (i == 6) key = 'Identité;RIB Etat';
                 break;
             case 'parcelles restructuration':
                 if (i < 13) {
@@ -270,29 +271,29 @@ try {
                     parcelleid++;
                 }
                 oldtop = top;
-                key = 'Résumé parcelle '+parcelleid;
+                key = 'Résumé parcelle '+parcelleid+';';
                 if (left > 1100) {
-                    key += ' Objectifs principaux';
+                    key += 'Objectifs principaux';
                 }else if (left > 1000) {
-                    key += ' EIP';
+                    key += 'EIP';
                 }else if (left > 950) {
-                    key += ' EIR';
+                    key += 'EIR';
                 }else if (left > 800) {
-                    key += ' Cépage'
+                    key += 'Cépage'
                 }else if (left > 750) {
-                    key += ' Irrigation'
+                    key += 'Irrigation'
                 }else if (left > 650) {
-                    key += ' Palissage'
+                    key += 'Palissage'
                 }else if (left > 550) {
-                    key += ' Plantation'
+                    key += 'Plantation'
                 }else if (left > 450) {
-                    key += ' Surface demandée'
+                    key += 'Surface demandée'
                 }else if (left > 250) {
-                    key += ' Commune'
+                    key += 'Commune'
                 }else if (left > 180) {
-                    key += ' Parcelle demandée'
+                    key += 'Parcelle demandée'
                 }else if (left > 20) {
-                    key += ' N° GPS/ Surf. retenue'
+                    key += 'N° GPS/ Surf. retenue'
                 }
                 break;
             case 'parcelle culturale':
@@ -305,25 +306,25 @@ try {
                     action = '';
                     return;
                 }
-                key = 'Détail des parcelles '+parcelleid+' Parcelle culturale '+cadastraleid;
+                key = 'Détail des parcelles '+parcelleid+' Parcelle culturale '+cadastraleid+";";
                 if (left > 420) {
                     cadastraleid++;
-                    key += " Surface demandée"
+                    key += "Surface demandée"
                 } else if (left > 320) {
-                    key += " Campagne de plantation"
+                    key += "Campagne de plantation"
                 } else if (left > 190) {
-                    key += " Surface au CVI"
+                    key += "Surface au CVI"
                 }else if (left > 120) {
-                    key += " Numéro d'ordre"
+                    key += "Numéro d'ordre"
                 } else if (left > 25) {
-                    key += ' Référence cadastrale'
+                    key += 'Référence cadastrale'
                 } else if (left > 20) {
-                    key = 'Détail des parcelles '+parcelleid+' Parcelle culturale id';
+                    key = 'Détail des parcelles '+parcelleid+';Parcelle culturale id';
                 }
                 break;
             case 'controles realises':
                 if (i % 2 == 0) {
-                    key = 'Détail des parcelles '+parcelleid+' Contrôles réalisés '+buffervalue.trim();
+                    key = 'Détail des parcelles '+parcelleid+';Contrôles réalisés '+buffervalue.trim();
                     buffervalue = '';
                     return;
                 }
@@ -333,7 +334,7 @@ try {
                     buffervalue = '';
                     return;
                 }
-                key = 'Détail des parcelles '+parcelleid+' Liste des droits '+cadastraleid+' ';
+                key = 'Détail des parcelles '+parcelleid+' Liste des droits '+cadastraleid+';';
                 if (left > 1300) {
                     key += "Code mesure RS";
                 } else if (left > 1200) {
@@ -375,7 +376,7 @@ try {
                     buffervalue = '';
                     return;
                 } else if (left > 20) {
-                    key = 'Détail des parcelles '+parcelleid+' Liste des droits id';
+                    key = 'Détail des parcelles '+parcelleid+' Liste des droits;id';
                 }
                 break;
             case 'controles realises droits':
@@ -387,7 +388,7 @@ try {
                     action = '';
                     return ;
                 }
-                key = 'Détail des parcelles '+parcelleid+' Liste des droits '+cadastraleid+' ';
+                key = 'Détail des parcelles '+parcelleid+' Liste des droits '+cadastraleid+';';
                 if (left > 650) {
                     key += 'Résultat instruction automatique'
                 } else if (left > 550) {
@@ -401,7 +402,7 @@ try {
                 } else if (left > 200) {
                     key += 'Croisement de cépage'
                 } else if (left > 130) {
-                    key += 'Constrôle de restructuration'
+                    key += 'Contrôle de restructuration'
                 } else if (left > 60) {
                     key += 'Type de restructuration'
                 } else if (left > 30) {
