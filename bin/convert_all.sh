@@ -10,5 +10,6 @@ ls export/*pdf | while read file ; do
 	pdftohtml -xml $pdf > /dev/null
         cd ..
 	node node_scripts/scrap_xml_pdf_dossier.js "tmp/"$xml | sort -u > "res/"$csv
+	node node_scripts/convert_csv_to_specific_format.js "res/"$csv
 #	rm -rf tmp
 done
