@@ -267,7 +267,7 @@ try {
                     buffervalue = '';
                     return;
                 }
-                if (oldtop != top) {
+                if (oldtop != top && left < 200) {
                     parcelleid++;
                 }
                 oldtop = top;
@@ -279,6 +279,10 @@ try {
                 }else if (left > 950) {
                     key += 'EIR';
                 }else if (left > 800) {
+                    if (buffervalue == 'N ') {
+                        buffervalue = '';
+                        return;
+                    }
                     key += 'Cépage'
                 }else if (left > 750) {
                     key += 'Irrigation'
