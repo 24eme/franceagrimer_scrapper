@@ -1,6 +1,6 @@
 const fs = require('fs');
 var debug = 0;
-var with_header = 0;
+var with_header = (process.argv[3]) && (process.argv[3] == 1);
 
 try {
     // read contents of the file
