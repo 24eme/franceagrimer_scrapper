@@ -70,6 +70,9 @@ try {
         }else if (csv[3].match('Détail des parcelles') && csv[4] == 'id') {
             let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
             data_resume[myid]['I'] = csv[5].substr(4,2);
+        }else if (csv[3].match('Détail des parcelles') && csv[4] == 'Statut parcelle') {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['D0'] = csv[5];
         }else if (csv[3].match('Détail des parcelles') && !csv[3].match('Liste des droits') && csv[4] == 'Appellation') {
             let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
             data_resume[myid]['J'] = csv[5];
@@ -89,21 +92,34 @@ try {
         }else if (csv[4] == 'Total surfaces PAL-seul' && csv[5] != '-') {
             data_global['F'] = 'Palissage';
         }else if (csv[4] == 'Total surfaces IRR-seule' && csv[5] != '-') {
-            data_global['C'] = 'Irrigation';
+            data_global['F'] = 'Irrigation';
         }else if (csv[4] == 'Total surfaces PAL+IRR-seuls' && csv[5] != '-') {
-            data_global['C'] = 'Palissage + Irrigation';
+            data_global['F'] = 'Palissage + Irrigation';
+        }else if (csv[4] == "Contrôles réalisés Cépage éligible") {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['S'] = csv[5];
+        }else if (csv[4] == "Contrôles réalisés AOP éligible") {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['T'] = csv[5];
+        }else if (csv[4] == "Contrôles réalisés Action principale éligible") {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['U'] = csv[5];
+        }else if (csv[4] == "Contrôles réalisés Actions complémentaires éligibles") {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['V'] = csv[5];
         }
+        
         
     });
 } catch (err) {
     console.error(err);
 }
 if (with_header) {
-    console.log("Dossier;Engagement;Demandeur;Type demande;Campagne;Action;Type de restructuration;Plantation;Palissage;Irrigation;Type d'autorisation;Appellation;Cépage;Entre rang;Entre pied;Dep;Commune;Section;Superficie;Objectif principal;Assurance");
+    console.log("Dossier;Engagement;Demandeur;Type demande;Statut demande;Campagne;Action;Type de restructuration;Plantation;Palissage;Irrigation;Type d'autorisation;Appellation;Cépage;Entre rang;Entre pied;Dep;Commune;Section;Superficie;Objectif principal;Contrôles réalisés Cépage éligible;Contrôles réalisés AOP éligible;Contrôles réalisés Action principale éligible;Contrôles réalisés Actions complémentaires éligibles;Assurance");
 }
 for(x in data_resume) {
     let res = {...data_resume[x], ...data_global};
-    let keys = ['0', 'A','B','C','D','E','F','G0','G','H','I','J','K','L','M','N','O','P','Q','R'];
+    let keys = ['0', 'A','B','C','D0','D','E','F','G0','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'];
     let line = "";
     for(y in keys) {
         if (!res[keys[y]]) {
