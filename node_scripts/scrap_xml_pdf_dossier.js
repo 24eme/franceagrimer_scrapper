@@ -292,7 +292,7 @@ try {
                     key += 'Plantation'
                 }else if (left > 450) {
                     key += 'Surface demandée'
-                }else if (left > 250) {
+                }else if (left > 230) {
                     key += 'Commune'
                 }else if (left > 180) {
                     key += 'Parcelle demandée'
