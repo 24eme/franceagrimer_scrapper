@@ -128,8 +128,9 @@ try {
 if (with_header) {
     console.log("Dossier;CVI;Engagement;Demandeur;Type demande;Statut demande;Campagne;Action;Type de restructuration;PLA-indiv;PLA-coll;PAL-seul;IRR-seule;PAL+IRR-seuls;Plantation;Palissage;Irrigation;Type d'autorisation;Appellation;Cépage;Entre rang;Entre pied;Dep;Commune;Section;Superficie;Objectif principal;Contrôles réalisés Cépage éligible;Contrôles réalisés AOP éligible;Contrôles réalisés Action principale éligible;Contrôles réalisés Actions complémentaires éligibles;Assurance");
 }
-if (!data_resume.length) {
+if (!Object.keys(data_resume).length) {
     data_resume['detail fictif'] = [];
+    data_resume['detail fictif']['D0'] = 'Demande sans parcelle';
 }
 for(x in data_resume) {
     let res = {...data_resume[x], ...data_global};
