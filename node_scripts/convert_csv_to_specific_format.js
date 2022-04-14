@@ -133,11 +133,11 @@ if (!data_resume.length) {
 }
 for(x in data_resume) {
     let res = {...data_resume[x], ...data_global};
-    let keys = ['0','A0','A','B','C','D0','D','E','F','F1','F2','F3','F4','F5','G0','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'];
+    let keys = ['0','A0','A','B','C','D0','D','E','F','F1','F2','F3','F4','F5','G0','G1','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'];
     let line = "";
     for(y in keys) {
         if (!res[keys[y]]) {
-            if (keys[y] == 'G' || keys[y] == 'G0' || keys[y] == 'H') {
+            if (keys[y] == 'G0' || keys[y] == 'G1' || keys[y] == 'H') {
                 res[keys[y]] = 'Non';
             }else {
                 res[keys[y]] = '';
