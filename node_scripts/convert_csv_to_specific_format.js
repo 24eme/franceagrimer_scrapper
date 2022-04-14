@@ -16,6 +16,7 @@ try {
     var correspondance_parcelles_ids = [];
     // print all lines
     lines.forEach((line) => {
+        if (debug) console.log("DEBUG: line: "+line)
         if (!line) {
             return;
         }
