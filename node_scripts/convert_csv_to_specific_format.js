@@ -21,9 +21,12 @@ try {
             return;
         }
         let csv = line.split(';');
-        data_global['0'] = csv[0];
-        data_global['D'] = csv[0].substr(0,4) +'-'+(csv[0].substr(0,4) + 1);
-
+        if (!data_global['0']) {
+            data_global['0'] = csv[0];
+        }
+        if (!data_global['D']) {
+            data_global['D'] = csv[0].substr(0,4) +'-'+(csv[0].substr(0,4) + 1);
+        }
         if (csv[3].match('Résumé parcelle')) {
             if (!data_resume[csv[3]]) {
                 data_resume[csv[3]] = [];
