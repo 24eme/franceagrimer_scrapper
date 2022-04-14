@@ -128,6 +128,9 @@ try {
 if (with_header) {
     console.log("Dossier;CVI;Engagement;Demandeur;Type demande;Statut demande;Campagne;Action;Type de restructuration;PLA-indiv;PLA-coll;PAL-seul;IRR-seule;PAL+IRR-seuls;Plantation;Palissage;Irrigation;Type d'autorisation;Appellation;Cépage;Entre rang;Entre pied;Dep;Commune;Section;Superficie;Objectif principal;Contrôles réalisés Cépage éligible;Contrôles réalisés AOP éligible;Contrôles réalisés Action principale éligible;Contrôles réalisés Actions complémentaires éligibles;Assurance");
 }
+if (!data_resume.length) {
+    data_resume['detail fictif'] = [];
+}
 for(x in data_resume) {
     let res = {...data_resume[x], ...data_global};
     let keys = ['0','A0','A','B','C','D0','D','E','F','F1','F2','F3','F4','F5','G0','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'];
