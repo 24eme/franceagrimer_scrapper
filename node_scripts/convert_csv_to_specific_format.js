@@ -43,7 +43,7 @@ try {
                         data_resume[csv[3]]['G0'] = 'Oui';
                     }
                     break;
-                case "Pallissage":
+                case "Palissage":
                     if (csv[5] == 'X') {
                         data_resume[csv[3]]['G1'] = 'Oui';
                     }
