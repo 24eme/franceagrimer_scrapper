@@ -36,7 +36,7 @@ try {
                     data_resume[csv[3]]['O'] = csv[5];
                     break;
                 case "Surface demandée":
-                    data_resume[csv[3]]['Q'] = csv[5];
+                    data_resume[csv[3]]['Q'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca', '');
                     break;
                 case "Plantation":
                     if (csv[5] == 'X') {
@@ -63,7 +63,7 @@ try {
                     data_resume[csv[3]]['M'] = csv[5];
                     break;
                 case "Objectifs principaux":
-                    data_resume[csv[3]]['R'] = csv[5];
+                    data_resume[csv[3]]['R'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca ', ' ');
                     data_resume[csv[3]]['E'] = csv[5].split(' ').pop();
                     break;
                 case "Parcelle demandée":
