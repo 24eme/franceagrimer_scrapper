@@ -2,13 +2,13 @@ const puppeteer = require('puppeteer');
 
 (async () => {
     const browser = await puppeteer.launch({headless: (process.env.FRANCEAGRIMER_DEBUG != 2),
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-background-timer-throttling',
-      '--disable-backgrounding-occluded-windows',
-      '--disable-renderer-backgrounding',
-    ]});
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+      ]});
   const page = await browser.newPage();
 
   await page._client.send('Page.setDownloadBehavior', {
@@ -27,25 +27,46 @@ const puppeteer = require('puppeteer');
       await page.keyboard.press('Enter');
       await page.waitForNavigation();
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
-          console.log("recherche");
+          console.log("recherche campagne");
       }
+      await page.waitForTimeout(500);
+
       await page.click("#accueil-form\\:id_panel_criteres\\:header");
-      await page.focus('#accueil-form\\:selectCampagneCritere');
+      await page.click("#accueil-form\\:id_panel_resultats\\:header");
+      await page.focus('#accueil-form\\:selectCampagne');
       await page.keyboard.type(process.argv[3]);
+      if (process.env.FRANCEAGRIMER_DEBUG != 0) {
+          console.log("campagne 1: DONE");
+      }
+      await page.waitForTimeout(3000);
+
+      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
+      await page.waitForTimeout(500);
+
+      await page.click("#accueil-form\\:id_panel_criteres\\:header");
+      await page.click("#accueil-form\\:id_panel_resultats\\:header");
       await page.focus('#accueil-form\\:numeroDu');
       await page.keyboard.type(process.argv[4]);
-      await page.click('#accueil-form\\:boutonRechercher');
-      await page.waitForSelector('td.rf-dt-c a');
+      await page.focus('#accueil-form\\:selectCampagneCritere');
+      await page.keyboard.type(process.argv[3]);
+      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
       await page.waitForTimeout(500);
+      await page.waitForSelector('#accueil-form\\:boutonRechercher');
+      await page.waitForTimeout(500);
+      await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("fiche");
       }
-      await page.click('td.rf-dt-c a');
+      await page.waitForSelector('#accueil-form\\:boutonExporter');
+      await page.waitForTimeout(1000);
+      await page.waitForSelector('.rf-dt-c img');
+      await page.click('.rf-dt-c img');
+      await page.waitForTimeout(1000);
       await page.waitForSelector('img.lienFichier');
+      await page.click('img.lienFichier');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("PDF dispo");
       }
-      await page.click('img.lienFichier');
       await page.waitForTimeout(60000);
       await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
