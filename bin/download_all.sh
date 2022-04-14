@@ -18,7 +18,7 @@ date=$(date +%Y%m%d%H%M)
 mkdir -p download/$$ export
 rm -f download/$$/Export-*csv
 
-node node_scripts/export_csv_campagne.js download/$$ $campagne
+node node_scripts/scrap_csv_campagne.js download/$$ $campagne
 if ! test -f download/$$/Export-*csv ; then
 	echo "L'export a échoué pour la campagne $campagne"
 	exit 1
@@ -28,7 +28,7 @@ mv -f download/$$/Export-*csv $csvdossier
 recode ISO88591..UTF8 $csvdossier
 rm -f download/$$/*pdf
 cat $csvdossier | awk -F ';' '{print $3}' | grep '^[0-9]' | while read dossier ; do
-	node node_scripts/export_pdf_campagne_cvi.js download/$$ $campagne $dossier
+	node node_scripts/scrap_pdf_campagne_cvi.js download/$$ $campagne $dossier
 	if ! test -f download/$$/*pdf ; then
 		echo "ERREUR: $dossier non récupéré";
 	else
