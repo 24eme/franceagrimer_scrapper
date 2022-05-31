@@ -83,6 +83,9 @@ try {
         }else if (csv[3].match('Détail des parcelles') && !csv[3].match('Liste des droits') && csv[4] == 'Section') {
             let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
             data_resume[myid]['P'] = csv[5];
+        }else if (csv[3].match('Détail des parcelles') && csv[4] == 'Action') {
+            let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
+            data_resume[myid]['F'] = csv[5];
         }else if (csv[4].match('Engagement n')) {
             data_global['A'] = csv[5];
         }else if (csv[4] == 'Raison sociale SIRET') {
@@ -92,19 +95,14 @@ try {
         }else if (csv[4] == 'Engagement plan') {
             data_global['C'] = csv[5];
         }else if (csv[4] == 'Total surfaces PLA-indiv' && csv[5] != '-') {
-            data_global['F'] = 'Plantation';
             data_global['F1'] = csv[5].replace('.', ',');
         }else if (csv[4] == 'Total surfaces PLA-coll' && csv[5] != '-') {
-            data_global['F'] = 'Plantation';
             data_global['F2'] = csv[5].replace('.', ',');
         }else if (csv[4] == 'Total surfaces PAL-seul' && csv[5] != '-') {
-            data_global['F'] = 'Palissage';
             data_global['F3'] = csv[5].replace('.', ',');
         }else if (csv[4] == 'Total surfaces IRR-seule' && csv[5] != '-') {
-            data_global['F'] = 'Irrigation';
             data_global['F4'] = csv[5].replace('.', ',');
         }else if (csv[4] == 'Total surfaces PAL+IRR-seuls' && csv[5] != '-') {
-            data_global['F'] = 'Palissage + Irrigation';
             data_global['F5'] = csv[5].replace('.', ',');
         }else if (csv[4] == "Contrôles réalisés Cépage éligible") {
             let myid = correspondance_parcelles_ids[parseInt(csv[3].split(' ')[3])];
