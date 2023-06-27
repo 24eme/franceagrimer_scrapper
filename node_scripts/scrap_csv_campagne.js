@@ -49,19 +49,33 @@ const puppeteer = require('puppeteer');
       await page.keyboard.type(process.argv[3]);
       await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
       await page.waitForTimeout(500);
+      await page.waitForSelector('#waitModal_container');
+      await page.waitForSelector('#waitModal_container', {hidden: true});
+      const acordeon = await page.$$('.rf-cp-lbl-colps');
+      await acordeon[0].click();
       await page.waitForSelector('#accueil-form\\:boutonRechercher');
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(200);
       await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("listing");
       }
+      await page.waitForSelector('#waitModal_container');
+      await page.waitForSelector('#waitModal_container', {hidden: true});
       await page.waitForSelector('#accueil-form\\:boutonExporter');
-      await page.waitForTimeout(5000);
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("téléchargement");
       }
       await page.click("#accueil-form\\:boutonExporter");
-      await page.waitForNavigation();
+      await page.waitForResponse((response) => {
+          if (response.status() === 200) {
+              csv_filename = response.headers()['content-disposition'];
+              csv_filename = csv_filename.replace('attachment;filename=', '');
+              if (csv_filename.match('csv')) {
+                  return true;
+              }
+          }
+          return false;
+      });
   } catch (e) {
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.error(e);

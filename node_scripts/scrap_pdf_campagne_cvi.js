@@ -45,18 +45,24 @@ const puppeteer = require('puppeteer');
 
       await page.click("#accueil-form\\:id_panel_criteres\\:header");
       await page.click("#accueil-form\\:id_panel_resultats\\:header");
+      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
+      await page.waitForTimeout(500);
+      await page.waitForSelector('#waitModal_container');
+      await page.waitForSelector('#waitModal_container', {hidden: true});
+      const acordeon = await page.$$('.rf-cp-lbl-colps');
+      await acordeon[0].click();
+      await page.waitForSelector('#accueil-form\\:boutonRechercher');
       await page.focus('#accueil-form\\:numeroDu');
       await page.keyboard.type(process.argv[4]);
       await page.focus('#accueil-form\\:selectCampagneCritere');
       await page.keyboard.type(process.argv[3]);
-      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
-      await page.waitForTimeout(500);
-      await page.waitForSelector('#accueil-form\\:boutonRechercher');
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(200);
       await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("fiche");
       }
+      await page.waitForSelector('#waitModal_container');
+      await page.waitForSelector('#waitModal_container', {hidden: true});
       await page.waitForSelector('#accueil-form\\:boutonExporter');
       await page.waitForTimeout(1000);
       await page.waitForSelector('.rf-dt-c img');
@@ -67,7 +73,16 @@ const puppeteer = require('puppeteer');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("PDF dispo");
       }
-      await page.waitForTimeout(60000);
+      await page.waitForResponse((response) => {
+          if (response.status() === 200) {
+              filename = response.headers()['content-disposition'];
+              filename = filename.replace('attachment;filename=', '');
+              if (filename.match('pdf')) {
+                  return true;
+              }
+          }
+          return false;
+      });
       await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log('fin téléchargement');
