@@ -45,18 +45,16 @@ const puppeteer = require('puppeteer');
 
       await page.click("#accueil-form\\:id_panel_criteres\\:header");
       await page.click("#accueil-form\\:id_panel_resultats\\:header");
+      await page.focus('#accueil-form\\:selectCampagneCritere');
+      await page.keyboard.type(process.argv[3]);
       await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
       await page.waitForTimeout(500);
       await page.waitForSelector('#waitModal_container');
       await page.waitForSelector('#waitModal_container', {hidden: true});
-      const acordeon = await page.$$('.rf-cp-lbl-colps');
-      await acordeon[0].click();
       await page.waitForSelector('#accueil-form\\:boutonRechercher');
       await page.focus('#accueil-form\\:numeroDu');
       await page.keyboard.type(process.argv[4]);
-      await page.focus('#accueil-form\\:selectCampagneCritere');
-      await page.keyboard.type(process.argv[3]);
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(500);
       await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("fiche");

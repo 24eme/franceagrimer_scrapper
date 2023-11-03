@@ -51,10 +51,8 @@ const puppeteer = require('puppeteer');
       await page.waitForTimeout(500);
       await page.waitForSelector('#waitModal_container');
       await page.waitForSelector('#waitModal_container', {hidden: true});
-      const acordeon = await page.$$('.rf-cp-lbl-colps');
-      await acordeon[0].click();
       await page.waitForSelector('#accueil-form\\:boutonRechercher');
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(500);
       await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("listing");
