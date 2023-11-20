@@ -1,7 +1,7 @@
 #!/bin/bash
 
 header="1"
-ls livraison_20220413/*pdf | while read file ; do
+ls $1/*pdf | while read file ; do
 	pdf=$(basename $file)
      	xml=$(echo "$pdf" | sed 's/pdf$/xml/')
         csv=$(echo "$pdf" | sed 's/pdf$/csv/')
