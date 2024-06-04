@@ -19,7 +19,7 @@ const puppeteer = require('puppeteer');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("login cas");
       }
-      await page.goto('https://cas.franceagrimer.fr/cas/login?service=http%3A%2F%2Fvitirestructuration.franceagrimer.fr%2Fdu-presentation%2Flogin%2Fcas');
+      await page.goto('https://cas.franceagrimer.fr/cas/login?service=https%3A%2F%2Fvitirestructuration.franceagrimer.fr%2Fdu-presentation%2Flogin%2Fcas');
       await page.click('#username');
       await page.keyboard.type(process.env.FRANCEAGRIMER_USERNAME);
       await page.click('#password');
@@ -30,6 +30,10 @@ const puppeteer = require('puppeteer');
           console.log("recherche campagne");
       }
       await page.waitForTimeout(500);
+
+      await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
+      await page.waitForTimeout(500);
+      await page.waitForSelector('#accueil-form\\:id_panel_criteres\\:header');
 
       await page.click("#accueil-form\\:id_panel_criteres\\:header");
       await page.click("#accueil-form\\:id_panel_resultats\\:header");
