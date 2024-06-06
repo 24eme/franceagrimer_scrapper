@@ -65,7 +65,7 @@ const puppeteer = require('puppeteer');
       }
       await page.waitForSelector('#waitModal_container');
       await page.waitForSelector('#waitModal_container', {hidden: true});
-      await page.waitForSelector('#accueil-form\\:boutonExporter');
+      await page.waitForSelector('#accueil-form\\:boutonExporter', {timeout: 60000});
       await page.waitForTimeout(1000);
       await page.waitForSelector('.rf-dt-c img');
       await page.click('.rf-dt-c img');
@@ -78,13 +78,14 @@ const puppeteer = require('puppeteer');
       await page.waitForResponse((response) => {
           if (response.status() === 200) {
               filename = response.headers()['content-disposition'];
+              console.log(['reponse', filename, response]);
               filename = filename.replace('attachment;filename=', '');
               if (filename.match('pdf')) {
                   return true;
               }
           }
           return false;
-      });
+      }, {timeout: 60000});
       await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log('fin téléchargement');
