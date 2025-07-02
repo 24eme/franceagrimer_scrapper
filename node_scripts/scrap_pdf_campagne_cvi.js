@@ -20,9 +20,13 @@ const puppeteer = require('puppeteer');
           console.log("login cas");
       }
       await page.goto('https://vitirestructuration.franceagrimer.fr/');
+      await page.waitForSelector('#username');
       await page.click('#username');
+      await page.waitForTimeout(100);
       await page.keyboard.type(process.env.FRANCEAGRIMER_USERNAME);
+      await page.waitForSelector('#password');
       await page.click('#password');
+      await page.waitForTimeout(100);
       await page.keyboard.type(process.env.FRANCEAGRIMER_PASSWORD);
       await page.keyboard.press('Enter');
       await page.waitForNavigation();
