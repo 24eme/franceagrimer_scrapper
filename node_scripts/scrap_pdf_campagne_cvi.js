@@ -19,7 +19,7 @@ const puppeteer = require('puppeteer');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("login cas");
       }
-      await page.goto('https://cas.franceagrimer.fr/cas/login?service=https%3A%2F%2Fvitirestructuration.franceagrimer.fr%2Fdu-presentation%2Flogin%2Fcas');
+      await page.goto('https://vitirestructuration.franceagrimer.fr/');
       await page.click('#username');
       await page.keyboard.type(process.env.FRANCEAGRIMER_USERNAME);
       await page.click('#password');
@@ -34,30 +34,28 @@ const puppeteer = require('puppeteer');
       await page.goto('https://vitirestructuration.franceagrimer.fr/du-presentation/');
       await page.waitForTimeout(500);
       await page.waitForSelector('#accueil-form\\:id_panel_criteres\\:header');
-
-      await page.click("#accueil-form\\:id_panel_criteres\\:header");
-      await page.click("#accueil-form\\:id_panel_resultats\\:header");
       await page.focus('#accueil-form\\:selectCampagne');
       await page.keyboard.type(process.argv[3]);
+      await page.keyboard.press('Enter')
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
           console.log("campagne 1: DONE");
       }
-      await page.waitForTimeout(3000);
-
-      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
-      await page.waitForTimeout(500);
-
-      await page.click("#accueil-form\\:id_panel_criteres\\:header");
-      await page.click("#accueil-form\\:id_panel_resultats\\:header");
-      await page.focus('#accueil-form\\:selectCampagneCritere');
-      await page.keyboard.type(process.argv[3]);
-      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
-      await page.waitForTimeout(500);
       await page.waitForSelector('#waitModal_container');
       await page.waitForSelector('#waitModal_container', {hidden: true});
-      await page.waitForSelector('#accueil-form\\:boutonRechercher');
+      await page.waitForSelector('#accueil-form\\:id_panel_resultats\\:header .rf-cp-ico-colps');
+
+      await page.waitForTimeout(500);
+      await page.click("#accueil-form\\:id_panel_criteres\\:header");
+
+      await page.waitForTimeout(500);
+      await page.waitForSelector('#accueil-form\\:selectCampagneCritere');
+      await page.focus('#accueil-form\\:selectCampagneCritere');
+      await page.keyboard.type(process.argv[3]);
+      await page.keyboard.press('Enter')
+      await page.waitForTimeout(500);
       await page.focus('#accueil-form\\:numeroDu');
       await page.keyboard.type(process.argv[4]);
+      await page.waitForSelector('#accueil-form\\:boutonRechercher');
       await page.waitForTimeout(500);
       await page.click('#accueil-form\\:boutonRechercher');
       if (process.env.FRANCEAGRIMER_DEBUG != 0) {
