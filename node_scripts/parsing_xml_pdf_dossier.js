@@ -290,7 +290,7 @@ try {
                     key += 'Palissage'
                 }else if (left > 550) {
                     key += 'Plantation'
-                }else if (left > 450) {
+                }else if (left > 430) {
                     key += 'Surface demandée'
                 }else if (left > 230) {
                     key += 'Commune'
