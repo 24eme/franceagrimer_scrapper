@@ -64,7 +64,7 @@ try {
                     data_resume[csv[3]]['EIP'] = csv[5];
                     break;
                 case "Objectifs principaux":
-                    data_resume[csv[3]]['Objectif principal'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca ', ' ').replace(' ca', ' ').replace(' ca', '');
+                    data_resume[csv[3]]['Objectif principal'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca ', ' ').replace(' ca', '');
                     //L'action se trouvais après l'objectif principal (ie: terminé par RVP en 2023)
                     data_resume[csv[3]]['Action'] = csv[5].split(' ').pop();
                     break;
