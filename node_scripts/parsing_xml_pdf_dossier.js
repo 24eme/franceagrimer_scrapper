@@ -294,7 +294,7 @@ try {
                     key += 'Surface demandée'
                 }else if (left > 230) {
                     key += 'Commune'
-                }else if (left > 180) {
+                }else if (left > 175) {
                     key += 'Parcelle demandée'
                 }else if (left > 20) {
                     key += 'N° GPS/ Surf. retenue'
