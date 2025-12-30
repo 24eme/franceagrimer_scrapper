@@ -25,7 +25,7 @@ try {
             data_global['Dossier'] = csv[0];
         }
         if (!data_global['Campagne']) {
-            data_global['Campagne'] = csv[0].substr(0,4) +'-'+(csv[0].substr(0,4) + 1);
+            data_global['Campagne'] = csv[0].substr(0,4) +'-'+(parseInt(csv[0].substr(0,4)) + 1);
         }
         try {
         if (csv[3].match('Résumé parcelle')) {
