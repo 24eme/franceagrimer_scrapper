@@ -164,7 +164,7 @@ try {
                 ordre = '3';
                 key = 'Détail des parcelles '+parcelleid+';'+categorie;
                 action = 'sameline';
-                if(line == ";Statut parcelle ; En cours d’;") {
+                if(line == ";Statut parcelle ; En cours d’;" || line == ";Statut parcelle ; En cours d¿instruction") {
                     line = ";Statut parcelle ; En cours d’instruction";
                 }
                 break;
