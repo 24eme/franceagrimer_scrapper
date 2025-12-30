@@ -64,7 +64,7 @@ try {
                     data_resume[csv[3]]['EIP'] = csv[5];
                     break;
                 case "Objectifs principaux":
-                    data_resume[csv[3]]['Objectif principal'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca ', ' ');
+                    data_resume[csv[3]]['Objectif principal'] = csv[5].replace(' ha ', ',').replace(' a ', '').replace(' ca ', ' ').replace(' ca', ' ');
                     data_resume[csv[3]]['Action'] = csv[5].split(' ').pop();
                     break;
                 case "Parcelle demandée":
